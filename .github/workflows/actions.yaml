@@ -6,8 +6,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Install Dependencies
-        run: npm i
-      - name: Deploy
-        run: npm run deploy
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Setup SSH Connection
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to Local Machine
+        run: |
+          ssh -o StrictHostKeyChecking=no user@${{ secrets.SSH_HOST }} << 'EOF'
+            cd /mnt/e/realloc/cicd
+            git pull origin main
+            npm install
+            npm run deploy
+          EOF
