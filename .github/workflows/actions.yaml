@@ -21,4 +21,4 @@ jobs:
 
       - name: Deploy to Remote Server
         run: |
-          ssh -i ~/.ssh/id_rsa -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /path/to/project && git pull && npm install && npm run build && pm2 restart app"
+          ssh -i ~/.ssh/id_rsa -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /mnt/e/realloc/cicd && git pull && npm install && npm run deploy"
