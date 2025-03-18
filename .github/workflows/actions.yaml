@@ -19,4 +19,4 @@ jobs:
       
       - name: Deploy to server
         run: |
-          sshpass -p '${{ secrets.SSH_PASS }}' ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /mnt/e/realloc/cicd && git pull && npm run deploy"
+          sshpass -p '${{ secrets.SSH_PASS }}' ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /mnt/e/realloc/cicd && git pull && npm run deploy"
