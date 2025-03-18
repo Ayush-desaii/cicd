@@ -6,21 +6,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: npm install
 
       - name: Setup SSH Connection
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts || { echo "ssh-keyscan failed"; exit 1; }
+          echo "StrictHostKeyChecking no" >> ~/.ssh/config
 
-      - name: Deploy to Local Machine
+      - name: Deploy to Remote Server
         run: |
-          ssh -o StrictHostKeyChecking=no user@${{ secrets.SSH_HOST }} << 'EOF'
-            cd /mnt/e/realloc/cicd
-            git pull origin main
-            npm install
-            npm run deploy
-          EOF
+          ssh -i ~/.ssh/id_rsa -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /path/to/project && git pull && npm install && npm run build && pm2 restart app"
