@@ -8,7 +8,7 @@
     "start": "node index.js",
     "deploy:stop-container": "docker stop test-server || true",
     "deploy:remove-container": "docker container rm test-server || true",
-    "deploy:start-container": "docker run --name test-server -d -p 3001:3000 test-server",
+    "deploy:start-container": "docker run --name test-server -d -p 3000:3000 test-server",
     "deploy:docker-build": "docker build . -t test-server",
     "deploy": "npm run deploy:docker-build && npm run deploy:stop-container && npm run deploy:remove-container && npm run deploy:start-container"
   },
