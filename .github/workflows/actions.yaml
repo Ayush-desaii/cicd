@@ -9,14 +9,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.7.0
+    steps:
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
         with:
-          ssh-private-key: ${{ secrets.SSH_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
 
-      - name: Install
-        run: sudo apt-get install sshpass
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
       
       - name: Deploy to server
         run: |
-          sshpass -p '${{ secrets.SSH_PASS }}' ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /mnt/e/realloc/cicd && git pull && npm run deploy"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /mnt/e/realloc/cicd && git pull && npm run deploy"
