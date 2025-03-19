@@ -16,7 +16,7 @@ app.post("/webhook", (req, res) => {
     console.log("🔄 Webhook triggered!", req.body);
 
     // Run deployment commands
-    exec("cd /mnt/e/realloc/cicd && git pull && npm install && npm run deploy", (err, stdout, stderr) => {
+    exec("cd E:\realloc\cicd && git pull && npm install && npm run deploy", (err, stdout, stderr) => {
         if (err) {
             console.error(`❌ Deployment error: ${err}`);
             return res.status(500).send("Deployment failed");
