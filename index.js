@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 })
 
 app.post("/webhook", (req, res) => {
-    console.log("🔄 Webhook triggered!", req.body);
+    console.log("🔄 Webhook triggered!");
 
     // Run deployment commands
     exec("cd E:\\realloc\\cicd && git pull && npm install && npm run deploy", (err, stdout, stderr) => {
