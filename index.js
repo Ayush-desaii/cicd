@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 const port = 3000
 
 app.get('/', (req, res) => {
-    res.send('Hello World!, ayush helo')
+    res.send('Hello World!, aryan')
 })
 
 app.post("/webhook", (req, res) => {
